@@ -1,27 +1,26 @@
-# #55305 — Validate invalid pipeline stream positions
+# Reject invalid stream roles before pipeline setup
 
-- Upstream: [Handling invalid stream arguments in stream.pipeline()](https://github.com/nodejs/node/issues/55305)
-- Checked: 2026-09-11; open, no assignee.
-- Upstream labels: `stream`, `never-stale`.
 - Area: `stream`.
-- Assessment: a small JS validation slice of a larger issue; dormant-PR follow-up.
+- Assessment: **Small slice of a larger fix; source checked**.
+- Checked: **2026-09-11**.
+- Upstream: [#55305](https://github.com/nodejs/node/issues/55305); open at review.
+- Upstream labels: `stream`, `never-stale`.
+- Source: [lib/internal/streams/pipeline.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/internal/streams/pipeline.js#L186), [lib/internal/streams/pipeline.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/internal/streams/pipeline.js#L295).
 
-## Problem and entry point
+## Observable problem or cost
 
-The issue describes inconsistent validation when readable-only or writable-only streams occupy inappropriate source, transform, or destination positions. Some invalid inputs progress to an unrelated asynchronous TypeError or a pipeline that cannot produce data.
+Readable-only and writable-only streams can reach unsuitable pipeline positions. Falling through conversion/setup can produce unrelated asynchronous errors or an operation that cannot make progress.
 
-Read [pipeline.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/internal/streams/pipeline.js#L295) and [test-stream-pipeline.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/test/parallel/test-stream-pipeline.js). The source branch still falls through to `Duplex.from()` for values it does not recognize as readable inputs.
+## Narrow JavaScript change
 
-## Smallest useful change
+Begin with one clearly invalid classic-stream role, such as a writable-only source. Validate the required capability before wiring resources while preserving valid iterable, function, and Web Stream conversions and the existing error-delivery convention.
 
-Start with one reported invalid position, such as a writable-only source, and demonstrate its current failure mode. Add the appropriate JS validation and one focused regression test, preserving the existing error-delivery convention. Confirm a valid equivalent pipeline still completes. The complete matrix of classic and Web Streams is beyond this first slice; do not claim this single change resolves the whole issue.
+## History, objections, and ownership
 
-```sh
-python3 tools/test.py test/parallel/test-stream-pipeline.js
-```
+[#55305](https://github.com/nodejs/node/issues/55305) describes the role matrix. [#62214](https://github.com/nodejs/node/pull/62214) was automatically closed on 2026-08-27 after 120 days without activity. No replacement matching that issue was found. Active [#65064](https://github.com/nodejs/node/pull/65064) and [#65128](https://github.com/nodejs/node/pull/65128) concern cleanup/callback behavior on synchronous throws; avoid extending this candidate into their work.
 
-Read the old review before selecting the exact validation rule. No reproduction or patch was performed for this notebook.
+## Evidence and limits
 
-## Activity evidence
+The current source still converts unrecognized source values through Duplex.from. This pass checked source and discussion; it did not rerun the full invalid-input matrix or establish that every case is a bug. [Pipeline accepted inputs](https://nodejs.org/api/stream.html#streampipelinesource-transforms-destination-callback).
 
-The author of [PR #62214](https://github.com/nodejs/node/pull/62214) claimed the issue on 2026-03-10. That PR was automatically closed on 2026-08-27 after 120 days without activity; it was not merged. Its closure comment explicitly permits reopening or continuing discussion. The issue timeline and open-PR searches showed no replacement implementation PR. Record this as a follow-up to the previous author's work, not an issue that has never been taken.
+Search terms used with `repo:nodejs/node`: 55305; 62214; pipeline invalid arguments. Public issue comments, associated PR discussions, and the open-PR inventory were checked; absence of a matching result does not establish that no private or unlinked work exists. Recheck before starting. See the [research method](RESEARCH.md) for runtime and source-version limits.

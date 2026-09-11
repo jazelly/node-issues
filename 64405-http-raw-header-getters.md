@@ -1,27 +1,26 @@
-# #64405 — Request getters omit headers supplied as an array
+# Make existing header getters reflect raw-array request headers
 
-- Upstream: [req.getHeaders() does not return values set using rawHeaders array](https://github.com/nodejs/node/issues/64405)
-- Checked: 2026-09-11; open, no assignee.
-- Upstream labels: `http`.
 - Area: `http`.
-- Assessment: small JS entry point, but behavior agreement is required before a fix.
+- Assessment: **Medium fix; design agreement needed**.
+- Checked: **2026-09-11**.
+- Upstream: [#64405](https://github.com/nodejs/node/issues/64405); open at review.
+- Upstream labels: `http`.
+- Source: [lib/_http_client.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/_http_client.js#L534), [lib/_http_outgoing.js](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/_http_outgoing.js#L844).
 
-## Problem and entry point
+## Observable problem or cost
 
-Passing `headers: ['foo', 'bar', 'baz', 'qux']` to an HTTP request sends those headers, while `getHeaders()`, `getHeaderNames()`, and `getRawHeaderNames()` do not expose them.
+Supplying headers as a raw array takes a path that does not populate the map consulted by existing request getters. The request can send a header while getHeader/hasHeader cannot see it.
 
-The [client constructor](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/_http_client.js#L534) handles the array separately from object headers and passes it directly to `_storeHeader()`. The [getters](https://github.com/nodejs/node/blob/0de4fcceb9372b5974f7bacc315d90f82f456d67/lib/_http_outgoing.js#L844) read `kOutHeaders`. This is a JavaScript representation mismatch, with no native-code change proposed.
+## Narrow JavaScript change
 
-## Smallest useful follow-up
+Provide a consistent read view for existing getters without rewriting the original raw sequence. Establish duplicate-value semantics first, and cover getHeaders/getHeaderNames together so they describe the same request.
 
-Create a local HTTP server test showing both the received raw headers and the request getters. Compare object and array input. Then settle whether getters should expose a lazily derived map or whether the existing distinction should be documented.
+## History, objections, and ownership
 
-If a getter fix is accepted, retain duplicate raw headers, original casing, and on-wire order. Do not eagerly normalize the outgoing array merely to make a getter test pass. The discussion explicitly raises that concern.
+[#64405](https://github.com/nodejs/node/issues/64405) discusses this in July 2026. Eager normalization was challenged because it can change casing, duplicate handling, and order on the wire; a lazy getter view was proposed. No open implementation or current claimant was found. The compatibility objection remains unresolved, so this is not an approved one-line normalization fix.
 
-Suggested new regression location: `test/parallel/test-http-client-raw-header-getters.js` (proposed file, not an existing test).
+## Evidence and limits
 
-## Activity evidence
+The raw-array path and getter-map mismatch were inspected in pinned source. This pass did not run a new network reproduction. [Request headers](https://nodejs.org/api/http.html#httprequestoptions-callback), [getHeader](https://nodejs.org/api/http.html#requestgetheadername).
 
-All four issue comments are from 2026-07-10. One contributor investigated the internal representation; another suggested lazy map construction. No assignee, linked implementation PR, recent ownership claim, or matching open fix was found. An issue-number search also returned unrelated source-map PR #52153, which does not implement this behavior.
-
-This is a dormant design follow-up, not an agreed beginner fix. No reproduction or patch was performed for this notebook.
+Search terms used with `repo:nodejs/node`: 64405; raw array headers getHeader; header getters. Public issue comments, associated PR discussions, and the open-PR inventory were checked; absence of a matching result does not establish that no private or unlinked work exists. Recheck before starting. See the [research method](RESEARCH.md) for runtime and source-version limits.
