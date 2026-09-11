@@ -7,7 +7,7 @@ English. New features and test-only tasks are outside this list.
 
 1. Check the [list](README.md) for duplicates.
 2. Copy the [template](templates/issue.md) into `issues/<area>/`, such as
-   `issues/fs/` or `issues/stream/`. Use one folder per entry.
+   `issues/fs/` or `issues/stream/`. Choose one area for each entry.
 3. Answer the five questions in the template. A few sentences per section are
    usually enough. See this [filled example](issues/fs/57905-fs-close-file-descriptor-zero.md).
 4. Add a link to the README and update its counts. Submit a pull request (PR)
@@ -36,8 +36,9 @@ number. The README lists the available folders.
   do not invent one just to fill the template.
 
 Use the date you actually checked the research; editing the wording does not
-refresh it. More detail is welcome when it helps, but tables and extra categories
-are optional. Existing longer entries can keep their supporting research.
+refresh it. Keep all entries in the same five-section format. Add supporting
+detail within those sections only when it helps someone understand or start
+the work.
 
 These notes do not claim upstream work or imply maintainer approval. Follow
 Node.js contribution rules separately when preparing an upstream change.

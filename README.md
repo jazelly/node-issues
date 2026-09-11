@@ -58,7 +58,7 @@ Candidates live under `issues/<primary-subsystem>/`. Each entry has one primary 
 | [`issues/watch/`](issues/watch/) | Watch-mode process and file selection | 1 |
 | [`issues/worker/`](issues/worker/) | Worker transport and error serialization | 3 |
 
-Use the short [candidate template](templates/issue.md), [contribution guide](CONTRIBUTING.md), and [filled example](issues/fs/57905-fs-close-file-descriptor-zero.md). Answer five questions: what is wrong, where to start, what has been tried, what fix you suggest, and what to do next. Include the benefit and risk; an alternative approach is optional. Existing longer entries retain their supporting research.
+Use the short [candidate template](templates/issue.md), [contribution guide](CONTRIBUTING.md), and [filled example](issues/fs/57905-fs-close-file-descriptor-zero.md). Answer five questions: what is wrong, where to start, what has been tried, what fix you suggest, and what to do next. Include the benefit and risk; an alternative approach is optional. All 20 entries use this five-section format, with historical links and evidence kept in the relevant section.
 
 - With an upstream issue: `issues/<area>/<issue-number>-<area>-<description>.md`.
 - Without one: `issues/<area>/source-<area>-<description>.md`; related PR numbers belong inside the file.
