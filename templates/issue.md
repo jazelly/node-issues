@@ -1,82 +1,33 @@
-# <Concrete improvement to existing Node.js JavaScript behavior>
+# [Short title]
 
-<!-- Copy this file to issues/<area>/<issue-number>-<area>-<description>.md.
-     Without an upstream issue, use source-<area>-<description>.md.
-     Replace every placeholder and remove these instructional comments.
-     Write Unknown or None identified where appropriate; do not invent facts. -->
+- Issue: [Node.js issue link, or None found]
+- Checked: [YYYY-MM-DD]
+- Status: [No active fix found, or link to ongoing work]
 
-- Area: `<primary subsystem matching the folder>`.
-- Kind: `<correctness | resource-lifecycle | performance>`.
-- Assessment: **<estimated scope, evidence level, and unresolved gate>**.
-- Last researched: **<YYYY-MM-DD; date of actual source/history/activity checks>**.
-- Upstream: <linked issue number and state at review, or None identified>.
-- Upstream labels: <exact labels, or None / Not applicable>.
-- Source: <permalink to a full commit SHA, file, and relevant lines>.
+## What's wrong?
 
-## Problem and impact
+[In 2–3 sentences: what happens, what should happen, and why it matters.]
 
-<Describe the concrete trigger and observed result or cost. Explain who is
-affected and the desired existing behavior. Separate an observation from a
-root-cause hypothesis. Identify why this is a logic improvement, not a new API,
-a style rewrite, or a test-only task.>
+## Where to start
 
-## Evidence and reproduction
+- Code: [Link to the relevant JS file and lines at a specific commit]
+- Docs: [Relevant Node.js documentation link]
+- Try it: [Small example or steps, Node version, and OS. If not run, say so.]
 
-<Record the runtime version, platform, input/conditions, and a minimal command
-or numbered reproduction procedure when available. State actual versus expected
-results and link supporting output. If not reproduced, say so and describe what
-source inspection establishes.>
+## What's been tried?
 
-<Distinguish the inspected source commit from the binary actually executed.
-For performance claims, state workload, baseline, measurements, and limitations;
-do not present a synthetic helper result as whole-application improvement.>
+- [Date or Unknown] — [Issue or PR link]: [What was tried, the outcome,
+  and any objection or reason it stopped.]
 
-## Previous discussion and attempts
+[If none found, say what you searched. Include closed PRs too.]
 
-<Say whether an exact previous attempt was found. Include relevant Node.js
-issues, discussions, PRs, review comments, and decisions. Prefer a comment/review
-permalink for a specific objection. Related precedent is not an attempted fix.>
+## Suggested fix
 
-| Date / precision | Reference | Relationship | Outcome at research | Lesson or constraint |
-| --- | --- | --- | --- | --- |
-| <date + event, approximate date, or Unknown> | <issue/PR/discussion/comment link> | <previous attempt / introducing change / related precedent / nearby active work> | <open / landed / closed, with known reason> | <why it stalled, pushback, preserved behavior, or Unknown> |
+- Idea: [The smallest useful change]
+- Benefit: [Why it helps]
+- Risk: [What might break or still needs checking]
+- Alternative (optional): [Another useful approach and its tradeoff]
 
-<Summarize what was accepted, disputed, rejected, or left unresolved. A stale
-closure is not a design rejection. A manually landed PR can be closed without
-the GitHub merged flag. Do not use updatedAt as a creation or closure date.>
+## Next step
 
-## Solution approaches
-
-<Compare at least two defensible choices; retaining current behavior may be one
-choice. Do not manufacture an alternative to fill the table. Attribute historical
-proposals and clearly identify your own assessment. A rejected or out-of-scope
-approach may appear if clearly labeled and useful to explain the decision.>
-
-| Approach | Pros | Cons / compatibility risks |
-| --- | --- | --- |
-| A: <approach and source if historical> | <specific benefit> | <cost, compatibility, complexity, or uncertainty> |
-| B: <alternative, or retain current behavior> | <specific benefit> | <specific drawback> |
-
-## Recommendation and boundaries
-
-<Recommend an approach and explain why, or state that the decision needs more
-evidence or maintainer input. Identify the smallest JS change, existing behavior
-that must be preserved, and what is outside scope. Do not imply upstream approval.>
-
-## Availability and next step
-
-- Availability snapshot: **<YYYY-MM-DD>**. <Current assignees, recent claims,
-  active or parked PRs, and their links; or no matching work found in the search.>
-- Notebook contributor / claim: **<Unclaimed in this notebook, or contributor and linked claim>**.
-- Next step: <one concrete action that resolves the remaining uncertainty>.
-
-<List the search scope and actual queries, including closed issues/PRs. Record
-whether linked timelines and reviews were checked. State any access or pagination
-limits. Recheck before starting; absence of search results is not proof of no work.>
-
-## References
-
-- <Relevant Node.js API documentation or contribution-policy link>.
-- <Pinned source revision or additional source locations>.
-- <Additional evidence not already linked above>.
-- [Repository research scope and runtime limits](https://github.com/jazelly/node-issues/blob/main/RESEARCH.md).
+[One concrete action someone can start with.]
