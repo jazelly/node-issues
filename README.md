@@ -1,10 +1,10 @@
 # Node Issues
 
-A personal research notebook of **23 existing Node.js JavaScript logic improvements**. It covers concrete correctness, cleanup, resource-retention, and performance opportunities. It contains no test-only tasks and proposes no new public features.
+A personal research notebook of **28 existing Node.js JavaScript logic improvements**. It covers concrete correctness, cleanup, resource-retention, and performance opportunities. It contains no test-only tasks and proposes no new public features.
 
 Reviewed on **2026-09-11** against Node.js main at [`0de4fcceb937`](https://github.com/nodejs/node/commit/0de4fcceb9372b5974f7bacc315d90f82f456d67). There are **13 issue-backed follow-ups and 7 source-discovered candidates**. Numbered issues may be closed for inactivity; their current status and history are recorded individually.
 
-Entries 21–23 and the [AsyncLocalStorage overview](issues/async_hooks/README.md) were added on **2026-11-09** against Node.js main at [`128f247ea4cb`](https://github.com/nodejs/node/commit/128f247ea4cb52da405f6cc35dec46c088be8af3). They add 2 issue-backed follow-ups and 1 source-discovered candidate.
+Entries 21–23 and the [AsyncLocalStorage overview](issues/async_hooks/README.md) were added on **2026-11-09** against Node.js main at [`128f247ea4cb`](https://github.com/nodejs/node/commit/128f247ea4cb52da405f6cc35dec46c088be8af3). They add 2 issue-backed follow-ups and 1 source-discovered candidate. Entries 24–28 come from a sweep of stalled and stale-closed PRs on the same date; each one has an earlier attempt that never landed. See the [sweep notes](RESEARCH.md#2026-11-09-stalled-pr-sweep).
 
 ## Places to investigate
 
@@ -35,6 +35,11 @@ Start with fd-zero closure or Unicode Symbol deserialization. Difficulty is our 
 | 21 | [Make `disable()` match its documentation under AsyncContextFrame](issues/async_hooks/source-async-hooks-disable-shared-frame.md) | `async_hooks` | Source discovery | Small docs fix; reproduced |
 | 22 | [Bind incoming-message listeners to the request's async context](issues/async_hooks/41285-async-hooks-incoming-message-listener-context.md) | `async_hooks` | #41285 | Docs first; reproduced; behavior decision needed |
 | 23 | [Release ALS context from idle keep-alive sockets](issues/http/67181-http-agent-idle-socket-context-retention.md) | `http` | #67181 | Medium fix; reproduced; active PR #67233 |
+| 24 | [Reject file modes above Int32 before reaching the binding](issues/fs/62516-fs-file-mode-int32-abort.md) | `fs` | #62516 | Small to medium fix; reproduced process abort; stale PR |
+| 25 | [Reject lone surrogates in querystring encoding](issues/querystring/62814-querystring-lone-surrogate-encoding.md) | `querystring` | #62814 | Small fix; reproduced; approved PR closed as stale; semver question |
+| 26 | [Preserve signal exit codes when the test runner is interrupted](issues/test_runner/source-test-runner-signal-exit-code.md) | `test_runner` | Source discovery | Small fix; reproduced; approved PR closed as stale |
+| 27 | [Return a rejected promise from `fs.openAsBlob()` on bad input](issues/fs/62418-fs-openasblob-sync-throw.md) | `fs` | #62418 | Small fix; reproduced; behavior decision needed |
+| 28 | [Redraw tall multiline REPL input when moving above the visible rows](issues/repl/59938-repl-multiline-scroll-up.md) | `repl` | #59938 | Medium fix; not reproduced (needs TTY); two closed PRs |
 
 Entries 17–20 are performance candidates with explicit evidence gates; only the error-property collection candidate has a local, isolated before/after measurement. The HTTP accounting, header getters, event-forwarding, and Unicode-layout entries also need behavior or compatibility agreement. Entries 22 and 23 also depend on maintainer agreement or an active PR. This is a researched candidate list, not maintainer-approved patches.
 
@@ -54,16 +59,19 @@ Candidates live under `issues/<primary-subsystem>/`. Each entry has one primary 
 | [`issues/buffer/`](issues/buffer/) | Buffer and Blob implementation | 1 |
 | [`issues/console/`](issues/console/) | Console output and inspector integration | 1 |
 | [`issues/events/`](issues/events/) | EventEmitter and event iteration | 3 |
-| [`issues/fs/`](issues/fs/) | File-system JavaScript wrappers and streams | 1 |
+| [`issues/fs/`](issues/fs/) | File-system JavaScript wrappers and streams | 3 |
 | [`issues/http/`](issues/http/) | HTTP request, response, agent, and proxy logic | 6 |
 | [`issues/perf_hooks/`](issues/perf_hooks/) | Performance measurement and histograms | 1 |
+| [`issues/querystring/`](issues/querystring/) | Legacy query string encoding | 1 |
 | [`issues/readline/`](issues/readline/) | Input, line editing, and history | 1 |
+| [`issues/repl/`](issues/repl/) | REPL editing and display | 1 |
 | [`issues/stream/`](issues/stream/) | Core stream composition and lifecycle | 1 |
+| [`issues/test_runner/`](issues/test_runner/) | `node:test` runner and reporters | 1 |
 | [`issues/util/`](issues/util/) | Inspection and general utilities | 1 |
 | [`issues/watch/`](issues/watch/) | Watch-mode process and file selection | 1 |
 | [`issues/worker/`](issues/worker/) | Worker transport and error serialization | 3 |
 
-Use the short [candidate template](templates/issue.md), [contribution guide](CONTRIBUTING.md), and [filled example](issues/fs/57905-fs-close-file-descriptor-zero.md). Answer five questions: what is wrong, where to start, what has been tried, what fix you suggest, and what to do next. Include the benefit and risk; an alternative approach is optional. All 23 entries use this five-section format, with historical links and evidence kept in the relevant section.
+Use the short [candidate template](templates/issue.md), [contribution guide](CONTRIBUTING.md), and [filled example](issues/fs/57905-fs-close-file-descriptor-zero.md). Answer five questions: what is wrong, where to start, what has been tried, what fix you suggest, and what to do next. Include the benefit and risk; an alternative approach is optional. All 28 entries use this five-section format, with historical links and evidence kept in the relevant section.
 
 - With an upstream issue: `issues/<area>/<issue-number>-<area>-<description>.md`.
 - Without one: `issues/<area>/source-<area>-<description>.md`; related PR numbers belong inside the file.

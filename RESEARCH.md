@@ -39,3 +39,27 @@ Watch restarts, raw-header getter behavior, the full pipeline matrix, current As
 ## How to read the list
 
 No empty search result is treated as proof of universal absence, and no stale closure is treated as maintainer approval. The proposed scope deliberately names constraints that prior attempts encountered. Recheck current comments, assignments, and PRs before taking any candidate; decide on a narrow implementation only after its remaining evidence gate is met.
+
+## 2026-11-09 stalled-PR sweep
+
+Source reference: [`128f247ea4cb`](https://github.com/nodejs/node/commit/128f247ea4cb52da405f6cc35dec46c088be8af3). Probes ran on a local `v28.0.0-pre` build of that commit on macOS arm64.
+
+Inputs: open `good first issue` (none were open) and `help wanted` issues; open `confirmed-bug` issues in JavaScript subsystems, each searched for an open PR that mentions it; and about 300 PRs closed unmerged since March 2026 after the stale bot's "closed after 30 days of inactivity" comment. Approved PRs closed unmerged were also screened. Most of those had in fact landed as a squashed or renamed commit, so a PR's closed state alone was not trusted.
+
+Listed as entries 24–28: [#62516](issues/fs/62516-fs-file-mode-int32-abort.md), [#62814](issues/querystring/62814-querystring-lone-surrogate-encoding.md), [test_runner signal exit codes](issues/test_runner/source-test-runner-signal-exit-code.md), [#62418](issues/fs/62418-fs-openasblob-sync-throw.md), and [#59938](issues/repl/59938-repl-multiline-scroll-up.md).
+
+Checked but not listed:
+
+| Item | Reason |
+| --- | --- |
+| [#55422](https://github.com/nodejs/node/issues/55422) `Buffer.concat` / `copy` past 4 GiB | Five PRs closed as stale. Not reproduced on main: `copy` and `concat` past the 4 GiB boundary returned correct bytes. [#63828](https://github.com/nodejs/node/pull/63828) changed the binding to `size_t` and used `Refs`, so the issue stayed open. Follow-up is closing it or a backport, not a new fix. |
+| [#62904](https://github.com/nodejs/node/issues/62904) https proxy `'readable'` listener buildup | Current `establishTunnel` uses `once('readable')`; looks fixed. |
+| [#62199](https://github.com/nodejs/node/issues/62199) webstream `writev` `error.filter` | The unguarded call is gone from the adapters. |
+| [#58892](https://github.com/nodejs/node/issues/58892) recursive `readdir` with a Buffer path | All three variants returned results on main. |
+| [#55077](https://github.com/nodejs/node/issues/55077) `Duplex.from` source not destroyed | Fixed on main. |
+| [#33684](https://github.com/nodejs/node/issues/33684) `end(cb)` after end | Closed as resolved after retesting. |
+| `validatePort('0')` ([#62836](https://github.com/nodejs/node/pull/62836)) | `dgram.connect('0')` already throws `ERR_SOCKET_BAD_PORT`. |
+| [#66349](https://github.com/nodejs/node/issues/66349) `Duplex.from(async () => {})` errors (v26 regression) | Reproduced, but open PR [#66243](https://github.com/nodejs/node/pull/66243) has one approval. |
+| [#60295](https://github.com/nodejs/node/issues/60295) `fs.realpath` loops forever on `c/../d` links | Reproduced (sync and callback hang; `.native` works), but open PR [#65457](https://github.com/nodejs/node/pull/65457) is active. |
+| [#12606](https://github.com/nodejs/node/issues/12606), [#59431](https://github.com/nodejs/node/issues/59431), [#27880](https://github.com/nodejs/node/issues/27880), [#58654](https://github.com/nodejs/node/issues/58654), [#61958](https://github.com/nodejs/node/issues/61958), [#62981](https://github.com/nodejs/node/issues/62981), [#42743](https://github.com/nodejs/node/issues/42743) | Each has an open PR: #67158, #65610, #65512, #65940, #66673, #62983, #65120. |
+| [#39137](https://github.com/nodejs/node/issues/39137) keep-alive timeout after a synchronous POST response | `help wanted`; only a 2021 draft PR exists. Not re-run this time. |
